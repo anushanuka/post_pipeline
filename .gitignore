@@ -168,6 +168,9 @@ pipeline.log
 # Configuration files with sensitive data
 config.json
 
-# Environment files
-# .env is currently tracked but can be ignored if needed
-# .env 
+# Environment files with sensitive data
+.env
+.env.local
+.env.development
+.env.test
+.env.production

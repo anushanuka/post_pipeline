@@ -21,7 +21,7 @@ post_pipeline/
 ├── prompt_template.txt        # AI prompt template
 ├── requirements.txt           # Python dependencies
 ├── config.json.example        # Configuration template (copy to config.json)
-├── .env                      # Environment variables (local)
+├── env.example               # Environment template (copy to .env)
 ├── .gitignore               # Git ignore rules
 ├── .github/
 │   └── workflows/
@@ -48,10 +48,9 @@ post_pipeline/
    
    **Option A: Using .env file**
    ```bash
-   # Create .env file with your credentials
-   GEMINI_API_KEY=your_gemini_api_key
-   SUPABASE_PROJECT_URL=your_supabase_url
-   SUPABASE_KEY=your_supabase_key
+   # Copy the example file and add your credentials
+   cp env.example .env
+   # Edit .env with your actual API keys
    ```
    
    **Option B: Using config.json**
@@ -108,10 +107,10 @@ CREATE TABLE post_pipeline (
 
 ## 🔒 Security
 
-- **API Keys Protected**: `config.json` is ignored by git and won't be pushed to repository
-- **Use Example File**: Copy `config.json.example` to `config.json` for local development
+- **API Keys Protected**: Both `config.json` and `.env` are ignored by git and won't be pushed to repository
+- **Use Example Files**: Copy `config.json.example` to `config.json` or `env.example` to `.env` for local development
 - **GitHub Secrets**: Production uses encrypted repository secrets
-- **No Key Exposure**: Your sensitive credentials remain private
+- **No Key Exposure**: Your sensitive credentials remain private and secure
 
 ## 📊 Data Structure
 
@@ -142,7 +141,7 @@ The generated content is stored as JSON with this structure:
 - **API Errors**: Check your API keys and quotas
 - **Database Errors**: Verify Supabase URL and permissions
 - **Workflow Failures**: Check GitHub Actions logs and secrets
-- **Missing config.json**: Copy from `config.json.example` and add your keys
+- **Missing config files**: Copy from `config.json.example` or `env.example` and add your keys
 
 ## 📝 License
 
