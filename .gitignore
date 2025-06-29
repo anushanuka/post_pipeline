@@ -165,6 +165,9 @@ pipeline.log
 # Allow logs directory for pipeline history tracking
 # logs/ directory will be tracked for pipeline logs
 
-# Environment file is tracked (not ignored) for this project
-# If you later want to ignore it, uncomment the line below:
+# Configuration files with sensitive data
+config.json
+
+# Environment files
+# .env is currently tracked but can be ignored if needed
 # .env 

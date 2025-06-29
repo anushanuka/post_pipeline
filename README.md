@@ -10,6 +10,7 @@ An automated system that generates AI-powered content about specified topics and
 - **Automated Scheduling**: Daily execution via GitHub Actions (7 AM IST)
 - **Database Storage**: Structured data storage in Supabase
 - **Dual Configuration**: Environment variables (production) + config.json (local)
+- **🔒 Security**: API keys protected and not exposed in repository
 
 ## 📁 Project Structure
 
@@ -19,7 +20,7 @@ post_pipeline/
 ├── query.txt                  # Search query (easily editable)
 ├── prompt_template.txt        # AI prompt template
 ├── requirements.txt           # Python dependencies
-├── config.json               # Local development config
+├── config.json.example        # Configuration template (copy to config.json)
 ├── .env                      # Environment variables (local)
 ├── .gitignore               # Git ignore rules
 ├── .github/
@@ -54,12 +55,10 @@ post_pipeline/
    ```
    
    **Option B: Using config.json**
-   ```json
-   {
-     "GEMINI_API_KEY": "your_gemini_api_key",
-     "SUPABASE_PROJECT_URL": "your_supabase_url", 
-     "SUPABASE_KEY": "your_supabase_key"
-   }
+   ```bash
+   # Copy the example file and add your credentials
+   cp config.json.example config.json
+   # Edit config.json with your actual API keys
    ```
 
 4. **Customize your query**:
@@ -107,6 +106,13 @@ CREATE TABLE post_pipeline (
 - **Adjust Schedule**: Modify the cron expression in `.github/workflows/daily-post.yml`
 - **Update Dependencies**: Modify `requirements.txt`
 
+## 🔒 Security
+
+- **API Keys Protected**: `config.json` is ignored by git and won't be pushed to repository
+- **Use Example File**: Copy `config.json.example` to `config.json` for local development
+- **GitHub Secrets**: Production uses encrypted repository secrets
+- **No Key Exposure**: Your sensitive credentials remain private
+
 ## 📊 Data Structure
 
 The generated content is stored as JSON with this structure:
@@ -136,6 +142,7 @@ The generated content is stored as JSON with this structure:
 - **API Errors**: Check your API keys and quotas
 - **Database Errors**: Verify Supabase URL and permissions
 - **Workflow Failures**: Check GitHub Actions logs and secrets
+- **Missing config.json**: Copy from `config.json.example` and add your keys
 
 ## 📝 License
 
