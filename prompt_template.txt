@@ -1,0 +1,52 @@
+Please provide the latest information and developments about '{query}' from the last 24 hours (since {yesterday}).
+
+Focus on:
+1. Recent news, announcements, or updates
+2. New features, releases, or improvements  
+3. Community discussions and insights
+4. Technical developments and innovations
+5. Use cases and implementations
+6. Code examples or tutorials
+7. Performance improvements or benchmarks
+8. Integration updates with other tools
+
+Please structure your response as a comprehensive summary with:
+
+**Title:** A catchy, engaging title for the update (max 100 characters)
+
+**Summary:** Brief overview of key developments (2-3 sentences)
+
+**Key Developments:**
+- [Bullet point format for major updates]
+- [Include specific version numbers, dates, or metrics when available]
+- [Mention any breaking changes or important notices]
+
+**Technical Highlights:**
+- [New features or capabilities]
+- [API changes or improvements]
+- [Performance metrics or benchmarks]
+
+**Community & Ecosystem:**
+- [Popular discussions or debates]
+- [New tutorials, guides, or resources]
+- [Notable implementations or case studies]
+
+**Code Examples:** (if applicable)
+```
+[Include relevant code snippets or configuration examples]
+```
+
+**Looking Ahead:**
+- [Upcoming features or roadmap items]
+- [Potential implications for developers]
+
+**Sources & Context:**
+- Based on general knowledge patterns and common development trends
+- Information reflects typical update cycles and community activity
+- Date range: {yesterday} to {current_date}
+
+**Tags:** [Relevant hashtags or keywords for categorization]
+
+Current date: {current_date}
+Search query: {query}
+Time range: Last 24 hours 
