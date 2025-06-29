@@ -13,7 +13,16 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Configure Git for contribution timeline
+      run: |
+        git config --global user.name "anushanuka"
+        git config --global user.email "anusha.nooka@gmail.com"
+        git config --global user.signingkey ""
+        echo "✅ Git configured with anusha's details for contribution timeline" | tee -a pipeline.log
+        
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -21,15 +30,78 @@ jobs:
         
     - name: Install dependencies
       run: |
+        echo "📦 Installing Python dependencies..." | tee -a pipeline.log
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        echo "✅ Dependencies installed successfully" | tee -a pipeline.log
         
     - name: Run daily post pipeline
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         SUPABASE_PROJECT_URL: ${{ secrets.SUPABASE_PROJECT_URL }}
         SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      run: python main.py
-      
-    - name: Log completion
-      run: echo "Daily AI post pipeline completed successfully!" 
+      run: |
+        echo "🚀 Starting Daily AI Post Pipeline at $(date)" | tee -a pipeline.log
+        python main.py 2>&1 | tee -a pipeline.log
+        echo "✅ Pipeline execution completed at $(date)" | tee -a pipeline.log
+        
+    - name: Log pipeline summary
+      run: |
+        echo "📊 PIPELINE SUMMARY - $(date)" | tee -a pipeline.log
+        echo "================================" | tee -a pipeline.log
+        echo "Repository: ${{ github.repository }}" | tee -a pipeline.log
+        echo "Workflow: ${{ github.workflow }}" | tee -a pipeline.log
+        echo "Run ID: ${{ github.run_id }}" | tee -a pipeline.log
+        echo "Triggered by: ${{ github.event_name }}" | tee -a pipeline.log
+        echo "Actor: ${{ github.actor }}" | tee -a pipeline.log
+        echo "Branch: ${{ github.ref_name }}" | tee -a pipeline.log
+        echo "Commit SHA: ${{ github.sha }}" | tee -a pipeline.log
+        echo "================================" | tee -a pipeline.log
+        echo "🎉 Daily AI post pipeline completed successfully!" | tee -a pipeline.log
+        
+    - name: Upload pipeline logs
+      uses: actions/upload-artifact@v4
+      if: always()  # Upload logs even if pipeline fails
+      with:
+        name: pipeline-logs-${{ github.run_id }}
+        path: pipeline.log
+        retention-days: 30
+        
+    - name: Commit and push pipeline logs
+      run: |
+        if [[ -f pipeline.log ]]; then
+          mkdir -p logs
+          LOG_FILE="logs/pipeline-$(date +%Y%m%d-%H%M%S).log"
+          cp pipeline.log "$LOG_FILE"
+          echo "📅 Pipeline run completed: $(date)" >> logs/latest-run.log
+          git add logs/
+          
+          if git diff --staged --quiet; then
+            echo "📝 No new log changes to commit" | tee -a pipeline.log
+          else
+            echo "📝 Committing pipeline logs for contribution timeline..." | tee -a pipeline.log
+            git commit --author="anushanuka <anusha.nooka@gmail.com>" -m "🤖 Daily AI Pipeline Run - $(date '+%Y-%m-%d %H:%M UTC') - Automated AI content generation completed - Workflow: ${{ github.workflow }} - Run ID: ${{ github.run_id }} - This commit counts toward contribution timeline!"
+            git push origin main
+            echo "✅ Pipeline logs committed and pushed successfully" | tee -a pipeline.log
+            echo "📈 Commit will appear in anusha's contribution timeline!" | tee -a pipeline.log
+          fi
+        fi
+        
+    - name: Create daily contribution marker
+      run: |
+        DATE_MARKER="contributions/daily-$(date +%Y%m%d).md"
+        mkdir -p contributions
+        echo "# Daily AI Pipeline Contribution - $(date '+%Y-%m-%d')" > "$DATE_MARKER"
+        echo "" >> "$DATE_MARKER"
+        echo "✅ AI content pipeline executed successfully" >> "$DATE_MARKER"
+        echo "🤖 Generated content using Gemini AI" >> "$DATE_MARKER"
+        echo "💾 Posted to Supabase database" >> "$DATE_MARKER"
+        echo "📊 Run ID: ${{ github.run_id }}" >> "$DATE_MARKER"
+        echo "🕐 Timestamp: $(date)" >> "$DATE_MARKER"
+        git add contributions/
+        
+        if ! git diff --staged --quiet; then
+          git commit --author="anushanuka <anusha.nooka@gmail.com>" -m "📅 Daily contribution marker - $(date '+%Y-%m-%d') - Ensuring daily GitHub contribution visibility - AI pipeline execution recorded"
+          git push origin main
+          echo "📈 Daily contribution marker committed - will show in timeline!"
+        fi 
