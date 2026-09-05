@@ -2,6 +2,8 @@
 
 An automated system that generates AI-powered content about specified topics and stores them in a Supabase database. Runs daily via GitHub Actions.
 
+Just a test that I need to check
+
 ## 🌟 Features
 
 - **Modular Design**: Clean, maintainable code structure
