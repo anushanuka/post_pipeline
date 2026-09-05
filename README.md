@@ -4,6 +4,8 @@ An automated system that generates AI-powered content about specified topics and
 
 Just a test that I need to check
 
+Adding additional text only in caps 
+
 ## 🌟 Features
 
 - **Modular Design**: Clean, maintainable code structure
